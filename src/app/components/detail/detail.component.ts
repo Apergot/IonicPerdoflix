@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MoviesService } from '../../services/movies-service';
 import { MovieDetail, Cast } from '../../interfaces/interfaces';
 import { ModalController } from '@ionic/angular';
+import { DataLocalService } from '../../services/data-local.service';
 
 @Component({
   selector: 'app-detail',
@@ -14,6 +15,7 @@ export class DetailComponent implements OnInit {
   movie: MovieDetail = {};
   cast: Cast[] = [];
   hidden = 100;
+  currentlySaved = 'star-outline';
   slideOotCast = {
     slidesPerView: 3.2,
     freeMode: true,
@@ -21,9 +23,17 @@ export class DetailComponent implements OnInit {
   }
 
   constructor( private moviesService: MoviesService,
-              private modalCtrl: ModalController) { }
+              private modalCtrl: ModalController,
+              private dataLocalService: DataLocalService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const exists = await this.dataLocalService.existsMovie(this.id);
+    if(exists){
+      this.currentlySaved = 'star';
+    }else{
+      this.currentlySaved = 'star-outline';
+    }
+
     this.moviesService.getMovieDetail(this.id)
     .subscribe(resp => {
       this.movie = resp;
@@ -38,8 +48,13 @@ export class DetailComponent implements OnInit {
     this.modalCtrl.dismiss();
   }
 
-  favorite(){
-    console.log('added to favorite');
+  async favorite(){
+    if(this.currentlySaved === 'star-outline'){
+      this.currentlySaved = 'star';
+    }else{
+      this.currentlySaved = 'star-outline';
+    }
+    this.dataLocalService.saveMovie(this.movie);
   }
 
 }

@@ -1,5 +1,7 @@
 {
   "name": "perdoflix",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
