@@ -1,9 +1,48 @@
-<ion-header>
+<ion-header no-border="no-border">
   <ion-toolbar>
-    <ion-title>
-      Tab Two
-    </ion-title>
+    <ion-title>Search Movie</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-toolbar>
+  <ion-searchbar
+    placeholder="Search"
+    animated
+    debounce="700"
+    [value]="textSearch"
+    (ionChange)="search($event)"
+  ></ion-searchbar>
+</ion-toolbar>
+
+<ion-content>
+
+  <ion-grid fixed *ngIf="showSpinner">
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-spinner name="crescent"></ion-spinner>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-list *ngIf="results.length===0" lines="none">
+      <ion-list-header>Suggestions</ion-list-header>
+    <ion-item *ngFor="let suggest of suggested">
+      <ion-label color="primary" 
+                  (click)="setField(suggest)"
+                >{{suggest}}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list lines="none">
+    <ion-item *ngFor="let result of results"
+              (click)="showDetail(result.id)"
+               class="searchResult">
+        <ion-thumbnail>
+            <img [src]="result.poster_path | imagen">
+        </ion-thumbnail>
+        <ion-label class="searchTitle">{{result.title}}</ion-label>
+        <ion-note color="primary">{{result.release_date}}</ion-note>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

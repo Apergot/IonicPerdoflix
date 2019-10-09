@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { MovieDetail, MovieDBResponse, Movie, MovieCast } from '../interfaces/interfaces';
+import { MovieDetail, MovieDBResponse, Movie, MovieCast, SearchResults } from '../interfaces/interfaces';
 
 const URL = environment.url;
 const apiKey = environment.apiKey;
@@ -55,6 +55,10 @@ export class MoviesService {
   getMovieCast(id: string){
     //we use ?a=1 for angular not to complete url with &
     return this.executeQuery<MovieCast>(`/movie/${id}/credits?a=1`);
+  }
+  
+  searchMovies(textSearch: string){
+    return this.executeQuery<SearchResults>(`/search/movie?query=${textSearch}`);
   }
 
 }
