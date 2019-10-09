@@ -1,0 +1,94 @@
+<ion-content>
+
+  <ion-label class="title">
+    <h1>{{ movie.title }}</h1>
+  </ion-label>
+
+  <img [src]="movie.backdrop_path | imagen" *ngIf="movie.backdrop_path">
+
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="4" class="poster-detail-about">
+        <ion-card class="poster-detail">
+            <img [src]="movie.poster_path | imagen" class="poster-detail" *ngIf="movie.poster_path">
+        </ion-card>
+      </ion-col>
+      <ion-col>
+          <ion-item>
+              <ion-icon slot="start" name="thumbs-up" color="primary"></ion-icon>
+              <ion-label>Rating</ion-label>
+              <ion-note slot="end" color="primary">
+                {{movie.vote_average}}
+              </ion-note>
+          </ion-item>
+          <ion-item>
+              <ion-icon slot="start" name="contacts" color="primary"></ion-icon>
+              <ion-label>Votes</ion-label>
+              <ion-note slot="end" color="primary">
+                {{movie.vote_count}}
+              </ion-note>
+          </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <ion-label>{{ movie.overview | slice: 0:hidden }}</ion-label>
+        <ion-label
+                  (click)="hidden=5000" 
+                  *ngIf="hidden !==5000">...
+                  <span class="span-desc"> More</span>
+        </ion-label>
+        <ion-label (click)="hidden=100"
+                    *ngIf="hidden != 100" color="primary"> Less
+        </ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-chip  *ngFor="let genre of movie.genres" color="primary">
+          <ion-label>
+            {{genre.name}}
+          </ion-label>
+        </ion-chip>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ion-label>Cast</ion-label>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-slides [options]="slideOotCast">
+    <ion-slide *ngFor="let actor of cast; let i = index">
+      <ion-card class="card-actor">
+        <img *ngIf="!actor.profile_path" src="../../../assets/no-avatar.jpg">
+        <img *ngIf="actor.profile_path" [src]="actor.profile_path | imagen">
+        <ion-label class="actor-name">{{ actor.name }}</ion-label>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+</ion-content>
+
+<ion-footer no-border>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">
+        <ion-icon slot="start" name="arrow-round-back"></ion-icon>
+        <ion-label>Back</ion-label>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+        <ion-button (click)="favorite()">
+          <ion-icon slot="end" name="star-outline"></ion-icon>
+          <ion-label>Favorite</ion-label>
+        </ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

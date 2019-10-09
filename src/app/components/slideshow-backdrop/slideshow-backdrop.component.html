@@ -1,6 +1,6 @@
 <ion-slides [options]="slidesOpts">
     <ion-slide *ngFor="let movie of freshMovies">
-      <ion-card>
+      <ion-card (click)="showDetail(movie.id)">
         <img [src]="movie.backdrop_path | imagen">
       </ion-card>
     </ion-slide>

@@ -1,19 +1,32 @@
 <ion-content>
-    <ion-grid fixed>
-      <ion-row>
-        <ion-col>
-          <h3>New Movies In Theaters</h3>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-    <app-slideshow-backdrop [freshMovies]="freshMovies"></app-slideshow-backdrop>
-    
-    <ion-grid fixed>
-        <ion-row>
-          <ion-col>
-            <h3>Billboard</h3>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    <app-slideshow-poster [freshMovies]="freshMovies"></app-slideshow-poster>
-  </ion-content>
+  <ion-grid fixed="fixed">
+    <ion-row>
+      <ion-col>
+        <h3>New Movies In Theaters</h3>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <app-slideshow-backdrop [freshMovies]="freshMovies"></app-slideshow-backdrop>
+
+  <ion-grid fixed="fixed">
+    <ion-row>
+      <ion-col>
+        <h3>Billboard</h3>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <app-slideshow-poster [freshMovies]="freshMovies"></app-slideshow-poster>
+
+  <ion-grid fixed="fixed">
+    <ion-row>
+      <ion-col>
+        <h3>Most Popular Movies</h3>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <app-slideshow-pairs [freshMovies]="popularMovies"
+                        (loadMore)="loadMore()"></app-slideshow-pairs>
+</ion-content>

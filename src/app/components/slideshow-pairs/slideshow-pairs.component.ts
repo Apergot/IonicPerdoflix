@@ -1,16 +1,18 @@
-import { OnInit, Input, Component } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { DetailComponent } from '../detail/detail.component';
 import { Movie } from 'src/app/interfaces/interfaces';
 
 @Component({
-  selector: 'app-slideshow-poster',
-  templateUrl: './slideshow-poster.component.html',
-  styleUrls: ['./slideshow-poster.component.scss'],
+  selector: 'app-slideshow-pairs',
+  templateUrl: './slideshow-pairs.component.html',
+  styleUrls: ['./slideshow-pairs.component.scss'],
 })
-export class SlideshowPosterComponent implements OnInit {
+export class SlideshowPairsComponent implements OnInit {
 
   @Input() freshMovies: Movie[] = [];
+  @Output() loadMore = new EventEmitter();
+
 
   slidesOpts = {
     slidesPerView: 3.15,
@@ -20,17 +22,21 @@ export class SlideshowPosterComponent implements OnInit {
 
   constructor(private modalCtrl: ModalController) { }
 
-  ngOnInit() {
- 
+  ngOnInit() {}
+
+
+  onClick(){
+    this.loadMore.emit();
   }
 
-  async showDetail(id: String){
+  async showDetail(id:string){
     const modal = await this.modalCtrl.create({
       component: DetailComponent,
       componentProps: {
         id
       }
     });
+
     modal.present();
   }
 }
