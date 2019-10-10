@@ -26,13 +26,10 @@ export class DetailComponent implements OnInit {
               private modalCtrl: ModalController,
               private dataLocalService: DataLocalService) { }
 
-  async ngOnInit() {
-    const exists = await this.dataLocalService.existsMovie(this.id);
-    if(exists){
-      this.currentlySaved = 'star';
-    }else{
-      this.currentlySaved = 'star-outline';
-    }
+  ngOnInit() {
+    this.dataLocalService.existsMovie(this.id)
+      .then(exists=> this.currentlySaved = (exists) ? 'star': 'star-outline');
+    
 
     this.moviesService.getMovieDetail(this.id)
     .subscribe(resp => {
@@ -49,12 +46,8 @@ export class DetailComponent implements OnInit {
   }
 
   async favorite(){
-    if(this.currentlySaved === 'star-outline'){
-      this.currentlySaved = 'star';
-    }else{
-      this.currentlySaved = 'star-outline';
-    }
-    this.dataLocalService.saveMovie(this.movie);
+    const exists = this.dataLocalService.saveMovie(this.movie);
+    this.currentlySaved = exists ? 'star': 'star-outline';
   }
 
 }

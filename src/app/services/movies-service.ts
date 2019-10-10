@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { MovieDetail, MovieDBResponse, Movie, MovieCast, SearchResults } from '../interfaces/interfaces';
+import { MovieDetail, MovieDBResponse, Movie, MovieCast, SearchResults, Genre } from '../interfaces/interfaces';
 
 const URL = environment.url;
 const apiKey = environment.apiKey;
@@ -13,6 +13,7 @@ export class MoviesService {
 
   private popularsPage = 0;
   freshMovies: Movie[] = [];
+  genres: Genre[] = [];
 
   constructor(private http: HttpClient) { }
 
@@ -59,6 +60,18 @@ export class MoviesService {
   
   searchMovies(textSearch: string){
     return this.executeQuery<SearchResults>(`/search/movie?query=${textSearch}`);
+  }
+
+  loadGenres(): Promise<Genre[]>{
+
+    return new Promise(resolve=>{
+      this.executeQuery(`/genre/movie/list?a=1`)
+        .subscribe(response => {
+          this.genres = response['genres'];
+          resolve(this.genres);
+        }
+      );
+    });
   }
 
 }

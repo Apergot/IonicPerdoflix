@@ -41,10 +41,13 @@ export class DataLocalService implements OnInit{
       message="Removed from favorites!"
     }else{
       this.movies.push(movie);
+      console.log(movie);
       message="Added to favorites!";
     }
     this.presentToast(message);
     this.storage.set('movies', this.movies);
+    console.log(this.movies);
+    return !exists;
   }
 
   async loadFavorites(){

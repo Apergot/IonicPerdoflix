@@ -1,12 +1,19 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Favorites
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-  <ion-list>
-  </ion-list>
-</ion-content>
+
+    <ion-grid fixed="fixed">
+        <ion-row>
+          <ion-col>
+            <h3>Favorites</h3>
+          </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <div *ngFor="let item of favoriteGenre">
+      <ion-grid fixed *ngIf="item.films.length > 0">
+        <ion-row>
+          <ion-col>{{ item.genero }}</ion-col>
+        </ion-row>
+      </ion-grid>
+      <app-slideshow-poster [freshMovies]="item.films"></app-slideshow-poster>
+    </div>
+  </ion-content>
